@@ -27486,7 +27486,122 @@ function (_React$Component) {
 
 var _default = Results;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./Pet":"Pet.js"}],"Details.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./Pet":"Pet.js"}],"Carousel.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Carousel =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Carousel, _React$Component);
+
+  function Carousel() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    var _temp;
+
+    _classCallCheck(this, Carousel);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Carousel)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
+      photos: [],
+      active: 0
+    }, _this.handleIndexClick = function (event) {
+      _this.setState({
+        active: +event.target.dataset.index //+ makes a string to a number
+
+      });
+    }, _temp));
+  }
+
+  _createClass(Carousel, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$state = this.state,
+          photos = _this$state.photos,
+          active = _this$state.active;
+      console.log(photos[active]);
+      var hero; // = "http://placecorgi.com/300/300";
+
+      if (photos[active] && photos[active].value) {
+        hero = photos[active].value;
+      }
+
+      return _react.default.createElement("div", {
+        className: "carousel"
+      }, _react.default.createElement("img", {
+        src: hero,
+        alt: "primary animal"
+      }), _react.default.createElement("div", {
+        className: "carousel-smaller"
+      }, photos.map(function (photo, index) {
+        return _react.default.createElement("img", {
+          onClick: _this2.handleIndexClick,
+          key: photo.value,
+          "data-index": index,
+          src: photo.value,
+          className: index === active ? "active" : "",
+          alt: "animal thumbnail"
+        });
+      })));
+    }
+  }], [{
+    key: "getDerivedStateFromProp",
+    value: function getDerivedStateFromProp(_ref) {
+      var media = _ref.media;
+      var photos = [];
+
+      if (media && media.photos && media.photos.photo) {
+        photos = media.photos.photo.filter(function (photo) {
+          return photo["@size"] === "pn";
+        });
+      }
+
+      return {
+        photos: photos
+      };
+    }
+  }]);
+
+  return Carousel;
+}(_react.default.Component);
+
+var _default = Carousel;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"Details.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27497,6 +27612,10 @@ exports.default = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var _petfinderClient = _interopRequireDefault(require("petfinder-client"));
+
+var _Carousel = _interopRequireDefault(require("./Carousel"));
+
+var _router = require("@reach/router");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27528,17 +27647,30 @@ var Details =
 function (_React$Component) {
   _inherits(Details, _React$Component);
 
-  function Details(props) {
+  function Details() {
+    var _getPrototypeOf2;
+
     var _this;
+
+    var _temp;
 
     _classCallCheck(this, Details);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Details).call(this, props));
-    _this.state = {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Details)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
       loading: true
-    };
-    return _this;
-  }
+    }, _temp));
+  } // constructor(props) {
+  // 	super(props);
+  // 	this.state = {
+  // 		loading: true
+  // 	}
+  // };
+  // or using babel config
+
 
   _createClass(Details, [{
     key: "componentDidMount",
@@ -27549,45 +27681,46 @@ function (_React$Component) {
         output: "full",
         id: this.props.id
       }).then(function (data) {
-        var pet = data.petfinder.pet;
+        var breed;
 
-        if (Array.isArray(pet.breeds.breed)) {
-          breed = pet.breeds.breed.join(', ');
+        if (Array.isArray(data.petfinder.pet.breeds.breed)) {
+          breed = data.petfinder.pet.breeds.breed.join(", ");
         } else {
-          breed = pet.breeds.breed;
+          breed = data.petfinder.pet.breeds.breed;
         }
 
         _this2.setState({
-          name: pet.name,
-          animal: pet.animal,
-          location: "".concat(pet.contact.city, ", ").concat(pet.contact.state),
-          description: pet.description,
-          media: pet.media,
+          name: data.petfinder.pet.name,
+          animal: data.petfinder.pet.animal,
+          location: "".concat(data.petfinder.pet.contact.city, ", ").concat(data.petfinder.pet.contact.state),
+          description: data.petfinder.pet.description,
+          media: data.petfinder.pet.media,
           breed: breed,
           loading: false
         });
-      }).catch(function (err) {
-        _this2.setState({
-          error: err
-        });
+      }).catch(function () {
+        (0, _router.navigate)("/");
       });
     }
   }, {
     key: "render",
     value: function render() {
       if (this.state.loading) {
-        return _react.default.createElement("h1", null, "Loading...");
+        return _react.default.createElement("h1", null, "loading \u2026 ");
       }
 
-      var _this$setState = this.setState,
-          name = _this$setState.name,
-          animal = _this$setState.animal,
-          breed = _this$setState.breed,
-          location = _this$setState.location,
-          description = _this$setState.description;
+      var _this$state = this.state,
+          media = _this$state.media,
+          animal = _this$state.animal,
+          breed = _this$state.breed,
+          location = _this$state.location,
+          description = _this$state.description,
+          name = _this$state.name;
       return _react.default.createElement("div", {
         className: "details"
-      }, _react.default.createElement("div", null, _react.default.createElement("h1", null, name), _react.default.createElement("h2", null, animal, " - ", breed, " - ", location), _react.default.createElement("p", null, description)));
+      }, _react.default.createElement(_Carousel.default, {
+        media: media
+      }), _react.default.createElement("div", null, _react.default.createElement("h1", null, name), _react.default.createElement("h2", null, "".concat(animal, " \u2014 ").concat(breed, " \u2014 ").concat(location)), _react.default.createElement("p", null, description)));
     }
   }]);
 
@@ -27596,7 +27729,82 @@ function (_React$Component) {
 
 var _default = Details;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","petfinder-client":"../node_modules/petfinder-client/index.js","./Carousel":"Carousel.js","@reach/router":"../node_modules/@reach/router/es/index.js"}],"SearchParams.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var SearchParams =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(SearchParams, _React$Component);
+
+  function SearchParams() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    var _temp;
+
+    _classCallCheck(this, SearchParams);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(SearchParams)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
+      location: "Des Moines, IA",
+      animal: "",
+      breed: ""
+    }, _temp));
+  }
+
+  _createClass(SearchParams, [{
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", {
+        className: "search=params"
+      }, _react.default.createElement("label", {
+        htmlFor: "location"
+      }, "Location", _react.default.createElement("input", {
+        id: "location",
+        value: this.state.location,
+        placeholder: "Location"
+      })));
+    }
+  }]);
+
+  return SearchParams;
+}(_react.default.Component);
+
+var _default = SearchParams;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -27608,6 +27816,8 @@ var _router = require("@reach/router");
 var _Results = _interopRequireDefault(require("./Results"));
 
 var _Details = _interopRequireDefault(require("./Details"));
+
+var _SearchParams = _interopRequireDefault(require("./SearchParams"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27649,6 +27859,8 @@ function (_React$Component) {
         path: "/"
       }), _react.default.createElement(_Details.default, {
         path: "/details/:id"
+      }), _react.default.createElement(_SearchParams.default, {
+        path: "/search-params"
       })));
     }
   }]);
@@ -27657,7 +27869,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 (0, _reactDom.render)(_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Results":"Results.js","./Details":"Details.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","./Results":"Results.js","./Details":"Details.js","./SearchParams":"SearchParams.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -27684,7 +27896,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65055" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56658" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
