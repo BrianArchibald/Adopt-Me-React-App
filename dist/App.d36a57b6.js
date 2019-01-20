@@ -27539,8 +27539,7 @@ function (_React$Component) {
       active: 0
     }, _this.handleIndexClick = function (event) {
       _this.setState({
-        active: +event.target.dataset.index //+ makes a string to a number
-
+        active: +event.target.dataset.index
       });
     }, _temp));
   }
@@ -27553,8 +27552,7 @@ function (_React$Component) {
       var _this$state = this.state,
           photos = _this$state.photos,
           active = _this$state.active;
-      console.log(photos[active]);
-      var hero; // = "http://placecorgi.com/300/300";
+      var hero = "http://placecorgi.com/300/300";
 
       if (photos[active] && photos[active].value) {
         hero = photos[active].value;
@@ -27564,23 +27562,26 @@ function (_React$Component) {
         className: "carousel"
       }, _react.default.createElement("img", {
         src: hero,
-        alt: "primary animal"
+        alt: "animal"
       }), _react.default.createElement("div", {
         className: "carousel-smaller"
       }, photos.map(function (photo, index) {
-        return _react.default.createElement("img", {
-          onClick: _this2.handleIndexClick,
-          key: photo.value,
-          "data-index": index,
-          src: photo.value,
-          className: index === active ? "active" : "",
-          alt: "animal thumbnail"
-        });
+        return (
+          /* eslint-disable-next-line */
+          _react.default.createElement("img", {
+            onClick: _this2.handleIndexClick,
+            "data-index": index,
+            key: photo.value,
+            src: photo.value,
+            className: index === active ? "active" : "",
+            alt: "animal thumnbail"
+          })
+        );
       })));
     }
   }], [{
-    key: "getDerivedStateFromProp",
-    value: function getDerivedStateFromProp(_ref) {
+    key: "getDerivedStateFromProps",
+    value: function getDerivedStateFromProps(_ref) {
       var media = _ref.media;
       var photos = [];
 
